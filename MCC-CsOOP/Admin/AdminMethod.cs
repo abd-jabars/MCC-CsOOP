@@ -12,7 +12,7 @@ namespace MCC_CsOOP.Admin
 
         public abstract void ContactPerson();
 
-        public void MainMenu()
+        public void MainMenu(List<Mahasiswa> mhsUniv)
         {
             Console.Clear();
             ContactPerson();
@@ -20,31 +20,10 @@ namespace MCC_CsOOP.Admin
             Console.WriteLine("1. Input Data \n2. Show Data \n3. Remove Data \n4. Exit \n");
 
             Console.Write("Choose menu : ");
-            String selectedMenu = Console.ReadLine();
-            switch (selectedMenu)
-            {
-                case "1":
-                    InputData();
-                    ShowMenu();
-                    break;
-                case "2":
-                    ShowData();
-                    ShowMenu();
-                    break;
-                case "3":
-                    RemoveData();
-                    ShowMenu();
-                    break;
-                case "4":
-                    ConfirmExit();
-                    break;
-                default:
-                    MainMenu();
-                    break;
-            } // end of switch case
+            
         } // end of MainMenu()
 
-        public void InputData()
+        public void InputData(List<Mahasiswa> mhsUniv)
         {
         InputMenuCP:
             Console.Clear();
@@ -106,22 +85,23 @@ namespace MCC_CsOOP.Admin
             Console.WriteLine("\nInput success :) \n");
         } // end of InputData()
 
-        public void ShowMenu()
+        public void ShowMenu(List<Mahasiswa> mhsUniv)
         {
             Console.WriteLine("1. Back to main menu \n2. Exit Program");
             Console.Write("\nWhat next? ");
             String userChoice = Console.ReadLine();
             if (userChoice == "1")
             {
-                MainMenu();
+                MainMenu(mhsUniv);
             }
             else if (userChoice == "2")
             {
+                Console.Clear();
                 Environment.Exit(0);
             }
             else
             {
-                ShowMenu();
+                ShowMenu(mhsUniv);
             } // end of if else
         } // end of ShowMenu()
 
@@ -144,14 +124,14 @@ namespace MCC_CsOOP.Admin
             return passValue;
         } // end of CheckPass()
 
-        public void ShowData()
+        public void ShowData(List<Mahasiswa> mhsUniv)
         {
             Console.Clear();
             if (this.nameMhs.Count < 1 || this.nimMhs.Count < 1 || this.examValMhs.Count < 1)
             {
                 Console.Clear();
                 Console.WriteLine("There is no data to be shown. \n");
-                ShowMenu();
+                ShowMenu(mhsUniv);
             }
             else
             {
@@ -213,7 +193,7 @@ namespace MCC_CsOOP.Admin
             } // end of else
         } // end of ShowData()
 
-        public void RemoveData()
+        public void RemoveData(List<Mahasiswa> mhsUniv)
         {
         RemoveCP:
             Console.Clear();
@@ -221,11 +201,11 @@ namespace MCC_CsOOP.Admin
             {
                 Console.Clear();
                 Console.WriteLine("There is no data to be removed. \n");
-                ShowMenu();
+                ShowMenu(mhsUniv);
             }
             else
             {
-                ShowData();
+                ShowData(mhsUniv);
                 Console.Write("Remove Data Mahasiswa ke- : ");
                 int selectData;
                 try
@@ -240,7 +220,7 @@ namespace MCC_CsOOP.Admin
 
                 if (this.nameMhs.Count < selectData)
                 {
-                    RemoveData();
+                    RemoveData(mhsUniv);
                 }
                 else
                 {
@@ -253,10 +233,10 @@ namespace MCC_CsOOP.Admin
                             RemoveDataProcess(selectData - 1);
                             break;
                         case "n":
-                            RemoveData();
+                            RemoveData(mhsUniv);
                             break;
                         default:
-                            ShowMenu();
+                            ShowMenu(mhsUniv);
                             break;
                     }
                 }
@@ -273,7 +253,7 @@ namespace MCC_CsOOP.Admin
             }
             catch (ArgumentOutOfRangeException)
             {
-                RemoveData();
+                //RemoveData();
             }
             Console.Clear();
             Console.WriteLine("\nData removed :( \n");
@@ -288,9 +268,6 @@ namespace MCC_CsOOP.Admin
                 case "y":
                     Console.Clear();
                     Environment.Exit(0);
-                    break;
-                case "n":
-                    MainMenu();
                     break;
                 default:
                     ConfirmExit();

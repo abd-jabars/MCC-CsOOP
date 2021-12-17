@@ -9,9 +9,6 @@ namespace MCC_CsOOP.Admin
         private String adminName { get; }
         private String adminEmail { get; }
 
-        //protected String adminName;
-        //protected String adminEmail;
-
         public CAdmin(string adminName, string adminEmail)
         {
             this.adminName = adminName;
