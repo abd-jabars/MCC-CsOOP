@@ -118,6 +118,7 @@ namespace MCC_CsOOP.Admin
                 } // end of for loop to input data
                 Console.Clear();
                 Console.WriteLine("\nInput success :) \n");
+                SecondaryMenu();
             }
 
         }
@@ -188,6 +189,7 @@ namespace MCC_CsOOP.Admin
 
                     Console.WriteLine("\n~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \n");
                 }
+                SecondaryMenu();
             }
         }
         

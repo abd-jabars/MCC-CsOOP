@@ -21,15 +21,12 @@ namespace MCC_CsOOP
                 {
                     case "1":
                         newAdmin.InputData(mhsUniv);
-                        newAdmin.SecondaryMenu();
                         break;
                     case "2":
                         newAdmin.ShowData(mhsUniv);
-                        newAdmin.SecondaryMenu();
                         break;
                     case "3":
                         newAdmin.RemoveData(mhsUniv);
-                        newAdmin.SecondaryMenu();
                         break;
                     case "4":
                         newAdmin.ConfirmExit();
