@@ -23,69 +23,7 @@ namespace MCC_CsOOP.Admin
             
         } // end of MainMenu()
 
-        public void InputData(List<Mahasiswa> mhsUniv)
-        {
-        InputMenuCP:
-            Console.Clear();
-            Console.WriteLine("/---/ Input Data Mahasiswa \\---\\ \n");
-            Console.Write("How much? ");
-            int inputCount;
-            try
-            {
-                inputCount = Int32.Parse(Console.ReadLine());
-            }
-            catch (FormatException)
-            {
-                goto InputMenuCP;
-            }
-
-            Console.Clear();
-
-            for (int i = 0; i < inputCount; i++)
-            {
-                Console.WriteLine("\nMahasiswa " + (i + 1));
-                Console.Write("Name \t \t : ");
-                String inputName = Console.ReadLine();
-                this.nameMhs.Add(inputName);
-
-                Console.Write("Nim \t \t : ");
-                String inputNim = Console.ReadLine();
-                this.nimMhs.Add(inputNim);
-
-                // check exam value input
-                int inputExamValue;
-                do
-                {
-                reInputCheckPoint:
-                    Console.Write("Exam value \t : ");
-                    try
-                    {
-                        inputExamValue = Int32.Parse(Console.ReadLine());
-                        if (inputExamValue >= 0 && inputExamValue <= 100)
-                        {
-                            this.examValMhs.Add(inputExamValue);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Incorrect exam value, pls re-input");
-                            goto reInputCheckPoint;
-                        }
-                    }
-                    catch (FormatException)
-                    {
-                        Console.WriteLine("Incorrect exam value, pls re-input");
-                        goto reInputCheckPoint;
-                    }
-
-                } while (inputExamValue < 0 && inputExamValue > 100);
-                // end of while loop to check input of exam value
-                Console.WriteLine("~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~");
-            } // end of for loop to input data
-            Console.Clear();
-            Console.WriteLine("\nInput success :) \n");
-        } // end of InputData()
-
-        public void ShowMenu()
+        public void SecondaryMenu()
         {
             Console.WriteLine("1. Back to main menu \n2. Exit Program");
             Console.Write("\nWhat next? ");
@@ -101,48 +39,108 @@ namespace MCC_CsOOP.Admin
             }
             else
             {
-                ShowMenu();
+                SecondaryMenu();
             } // end of if else
         } // end of ShowMenu()
 
-        public List<Boolean> CheckPass(List<int> examVal)
+        public void ConfirmExit()
         {
-            List<Boolean> passValue = new List<Boolean>();
-            for (int i = 0; i < examVal.Count; i++)
+            Console.Write("\nAre u sure want to exit (Y/n) ? ");
+            String confirm = Console.ReadLine();
+            switch (confirm.ToLower())
             {
-                if (examVal[i] >= 75)
+                case "y":
+                    Console.Clear();
+                    Environment.Exit(0);
+                    break;
+                case "n":
+                    MainMenu();
+                    break;
+                default:
+                    ConfirmExit();
+                    break;
+            }
+        } // end of ConfirmExit()
+
+        public void InputData(List<Mahasiswa> mhsUniv)
+        {
+            Console.Clear();
+            Console.WriteLine("/---/ Input Data Mahasiswa \\---\\ \n");
+            Console.Write("How much? ");
+            String inputHowMany = Console.ReadLine();
+            bool isNumber = Int32.TryParse(inputHowMany, out int inputMany );
+            if (isNumber == false)
+            {
+                InputData(mhsUniv);
+            }
+            else
+            {
+                Console.Clear();
+
+                for (int i = 0; i < inputMany; i++)
                 {
-                    Boolean value = true;
-                    passValue.Add(value);
-                }
-                else
-                {
-                    Boolean value = false;
-                    passValue.Add(value);
-                }
-            } // end of loop
-            return passValue;
-        } // end of CheckPass()
+                    Console.WriteLine("\nMahasiswa " + (i + 1));
+                    Console.Write("Name \t \t : ");
+                    String inputName = Console.ReadLine();
+
+                    Console.Write("Nim \t \t : ");
+                    String inputNim = Console.ReadLine();
+
+                    int inputExamValue;
+                    do
+                    {
+                    reInputCheckPoint:
+                        Console.Write("Exam value \t : ");
+                        try
+                        {
+                            inputExamValue = Int32.Parse(Console.ReadLine());
+                            if (inputExamValue >= 0 && inputExamValue <= 100)
+                            {
+                                this.examValMhs.Add(inputExamValue);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Incorrect exam value, pls re-input");
+                                goto reInputCheckPoint;
+                            }
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Incorrect exam value, pls re-input");
+                            goto reInputCheckPoint;
+                        }
+
+                    } while (inputExamValue < 0 && inputExamValue > 100);
+
+                    mhsUniv.Add(new Mahasiswa(inputName,inputNim,inputExamValue));
+
+                    Console.WriteLine("~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~");
+                } // end of for loop to input data
+                Console.Clear();
+                Console.WriteLine("\nInput success :) \n");
+            }
+
+        }
 
         public void ShowData(List<Mahasiswa> mhsUniv)
         {
             Console.Clear();
-            if (this.nameMhs.Count < 1 || this.nimMhs.Count < 1 || this.examValMhs.Count < 1)
+            if (mhsUniv.Count < 1)
             {
                 Console.Clear();
                 Console.WriteLine("There is no data to be shown. \n");
-                ShowMenu();
+                SecondaryMenu();
             }
             else
             {
-                for (int i = 0; i < this.nameMhs.Count; i++)
+                for (int i = 0; i < mhsUniv.Count; i++)
                 {
                     Console.WriteLine($"\nMahasiswa {(i + 1)}");
 
                     // ArgumentOutOfRangeException FOR nameMhsList
                     try
                     {
-                        Console.WriteLine($"Name \t \t : {this.nameMhs[i]}");
+                        Console.WriteLine($"Name \t \t : {mhsUniv[i].nameMhs}");
                     }
                     catch (ArgumentOutOfRangeException)
                     {
@@ -152,7 +150,7 @@ namespace MCC_CsOOP.Admin
                     // ArgumentOutOfRangeException FOR nimMhsList
                     try
                     {
-                        Console.WriteLine($"Nim \t \t : {this.nimMhs[i]}");
+                        Console.WriteLine($"Nim \t \t : {mhsUniv[i].nimMhs}");
                     }
                     catch (ArgumentOutOfRangeException)
                     {
@@ -162,7 +160,7 @@ namespace MCC_CsOOP.Admin
                     // ArgumentOutOfRangeException FOR examValMhsList
                     try
                     {
-                        Console.WriteLine($"Exam value \t : {this.examValMhs[i]}");
+                        Console.WriteLine($"Exam value \t : {mhsUniv[i].examValMhs}");
 
                     }
                     catch (ArgumentOutOfRangeException)
@@ -173,7 +171,7 @@ namespace MCC_CsOOP.Admin
                     // ArgumentOutOfRangeException FOR CheckPassExam method
                     try
                     {
-                        if (CheckPass(this.examValMhs)[i] == true)
+                        if (CheckPass(mhsUniv)[i] == true)
                         {
                             Console.WriteLine("Exam result \t : Good Job");
                         }
@@ -189,9 +187,28 @@ namespace MCC_CsOOP.Admin
                     }
 
                     Console.WriteLine("\n~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \n");
-                } // end of loop
-            } // end of else
-        } // end of ShowData()
+                }
+            }
+        }
+        
+        public List<Boolean> CheckPass(List<Mahasiswa> mhsUniv)
+        {
+            List<Boolean> isPass = new List<Boolean>();
+            for (int i = 0; i < mhsUniv.Count; i++)
+            {
+                if (mhsUniv[i].examValMhs >= 75)
+                {
+                    Boolean pass = true;
+                    isPass.Add(pass);
+                }
+                else
+                {
+                    Boolean pass = false;
+                    isPass.Add(pass);
+                }
+            }
+            return isPass;
+        }
 
         public void RemoveData(List<Mahasiswa> mhsUniv)
         {
@@ -201,7 +218,7 @@ namespace MCC_CsOOP.Admin
             {
                 Console.Clear();
                 Console.WriteLine("There is no data to be removed. \n");
-                ShowMenu();
+                SecondaryMenu();
             }
             else
             {
@@ -236,7 +253,7 @@ namespace MCC_CsOOP.Admin
                             RemoveData(mhsUniv);
                             break;
                         default:
-                            ShowMenu();
+                            SecondaryMenu();
                             break;
                     }
                 }
@@ -259,24 +276,6 @@ namespace MCC_CsOOP.Admin
             Console.WriteLine("\nData removed :( \n");
         } // end of RemoveDataProcess()
 
-        public void ConfirmExit()
-        {
-            Console.Write("\nAre u sure want to exit (Y/n) ? ");
-            String confirm = Console.ReadLine();
-            switch (confirm.ToLower())
-            {
-                case "y":
-                    Console.Clear();
-                    Environment.Exit(0);
-                    break;
-                case "n":
-                    MainMenu();
-                    break;
-                default:
-                    ConfirmExit();
-                    break;
-            }
-        } // end of ConfirmExit()
 
     }
 }
