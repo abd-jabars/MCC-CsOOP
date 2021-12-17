@@ -12,7 +12,7 @@ namespace MCC_CsOOP.Admin
 
         public abstract void ContactPerson();
 
-        public void MainMenu(List<Mahasiswa> mhsUniv)
+        public void MainMenu()
         {
             Console.Clear();
             ContactPerson();
@@ -85,14 +85,14 @@ namespace MCC_CsOOP.Admin
             Console.WriteLine("\nInput success :) \n");
         } // end of InputData()
 
-        public void ShowMenu(List<Mahasiswa> mhsUniv)
+        public void ShowMenu()
         {
             Console.WriteLine("1. Back to main menu \n2. Exit Program");
             Console.Write("\nWhat next? ");
             String userChoice = Console.ReadLine();
             if (userChoice == "1")
             {
-                MainMenu(mhsUniv);
+                MainMenu();
             }
             else if (userChoice == "2")
             {
@@ -101,7 +101,7 @@ namespace MCC_CsOOP.Admin
             }
             else
             {
-                ShowMenu(mhsUniv);
+                ShowMenu();
             } // end of if else
         } // end of ShowMenu()
 
@@ -131,7 +131,7 @@ namespace MCC_CsOOP.Admin
             {
                 Console.Clear();
                 Console.WriteLine("There is no data to be shown. \n");
-                ShowMenu(mhsUniv);
+                ShowMenu();
             }
             else
             {
@@ -201,7 +201,7 @@ namespace MCC_CsOOP.Admin
             {
                 Console.Clear();
                 Console.WriteLine("There is no data to be removed. \n");
-                ShowMenu(mhsUniv);
+                ShowMenu();
             }
             else
             {
@@ -236,7 +236,7 @@ namespace MCC_CsOOP.Admin
                             RemoveData(mhsUniv);
                             break;
                         default:
-                            ShowMenu(mhsUniv);
+                            ShowMenu();
                             break;
                     }
                 }
@@ -268,6 +268,9 @@ namespace MCC_CsOOP.Admin
                 case "y":
                     Console.Clear();
                     Environment.Exit(0);
+                    break;
+                case "n":
+                    MainMenu();
                     break;
                 default:
                     ConfirmExit();

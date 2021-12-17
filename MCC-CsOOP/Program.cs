@@ -15,28 +15,27 @@ namespace MCC_CsOOP
             int exit = 0;
             do
             {
-                newAdmin.MainMenu(mhsUniv);
+                newAdmin.MainMenu();
                 String selectMenu = Console.ReadLine();
                 switch (selectMenu)
                 {
                     case "1":
                         newAdmin.InputData(mhsUniv);
-                        newAdmin.ShowMenu(mhsUniv);
+                        newAdmin.ShowMenu();
                         break;
                     case "2":
                         newAdmin.ShowData(mhsUniv);
-                        newAdmin.ShowMenu(mhsUniv);
+                        newAdmin.ShowMenu();
                         break;
                     case "3":
                         newAdmin.RemoveData(mhsUniv);
-                        newAdmin.ShowMenu(mhsUniv);
+                        newAdmin.ShowMenu();
                         break;
                     case "4":
                         newAdmin.ConfirmExit();
                         break;
                     default:
-                        Console.Clear();
-                        exit = 1;
+                        newAdmin.MainMenu();
                         break;
                 } // end of switch case
 
