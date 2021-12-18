@@ -124,14 +124,13 @@ namespace MCC_CsOOP.Admin
             return isPass;
         }
 
-        public void ShowData(List<Mahasiswa> mhsUniv)
+        public void ShowDataProcess(List<Mahasiswa> mhsUniv)
         {
             Console.Clear();
             if (mhsUniv.Count < 1)
             {
                 Console.Clear();
                 Console.WriteLine("There is no data to be shown. \n");
-                SecondaryMenu();
             }
             else
             {
@@ -190,77 +189,13 @@ namespace MCC_CsOOP.Admin
 
                     Console.WriteLine("\n~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \n");
                 }
-                SecondaryMenu();
             }
         }
 
-        public void ShowDataToRemove(List<Mahasiswa> mhsUniv)
+        public void ShowData(List<Mahasiswa> mhsUniv)
         {
-            Console.Clear();
-            if (mhsUniv.Count < 1)
-            {
-                Console.Clear();
-                Console.WriteLine("There is no data to be shown. \n");
-                SecondaryMenu();
-            }
-            else
-            {
-                for (int i = 0; i < mhsUniv.Count; i++)
-                {
-                    Console.WriteLine($"\nMahasiswa {(i + 1)}");
-
-                    // ArgumentOutOfRangeException FOR nameMhsList
-                    try
-                    {
-                        Console.WriteLine($"Name \t \t : {mhsUniv[i].nameMhs}");
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        Console.WriteLine("Name doesnt exist");
-                    }
-
-                    // ArgumentOutOfRangeException FOR nimMhsList
-                    try
-                    {
-                        Console.WriteLine($"Nim \t \t : {mhsUniv[i].nimMhs}");
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        Console.WriteLine("Nim doesnt exist");
-                    }
-
-                    // ArgumentOutOfRangeException FOR examValMhsList
-                    try
-                    {
-                        Console.WriteLine($"Exam value \t : {mhsUniv[i].examValMhs}");
-
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        Console.WriteLine("Exam value doesnt exist");
-                    }
-
-                    // ArgumentOutOfRangeException FOR CheckPassExam method
-                    try
-                    {
-                        if (CheckPass(mhsUniv)[i] == true)
-                        {
-                            Console.WriteLine("Exam result \t : Good Job");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Exam result \t : Try again :)");
-                        }
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-
-                        Console.WriteLine("Exam result \t : ???");
-                    }
-
-                    Console.WriteLine("\n~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \n");
-                }
-            }
+            ShowDataProcess(mhsUniv);
+            SecondaryMenu();
         }
 
         public void RemoveData(List<Mahasiswa> mhsUniv)
@@ -274,7 +209,7 @@ namespace MCC_CsOOP.Admin
             }
             else
             {
-                ShowDataToRemove(mhsUniv);
+                ShowDataProcess(mhsUniv);
                 Console.Write("Remove Data Mahasiswa number- : ");
                 String selectToRemove = Console.ReadLine();
                 bool isNumber = Int32.TryParse(selectToRemove, out int removeNumber);
