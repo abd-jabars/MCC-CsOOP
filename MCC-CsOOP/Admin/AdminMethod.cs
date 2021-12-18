@@ -21,7 +21,7 @@ namespace MCC_CsOOP.Admin
 
         public void SecondaryMenu()
         {
-            Console.WriteLine("1. Back to main menu \n2. Exit Program");
+            Console.WriteLine("\n1. Back to main menu \n2. Exit Program");
             Console.Write("\nWhat next? ");
             String userChoice = Console.ReadLine();
             if (userChoice == "1")
@@ -46,6 +46,10 @@ namespace MCC_CsOOP.Admin
             switch (confirm.ToLower())
             {
                 case "y":
+                    Console.Clear();
+                    Environment.Exit(0);
+                    break;
+                case "":
                     Console.Clear();
                     Environment.Exit(0);
                     break;
@@ -99,7 +103,8 @@ namespace MCC_CsOOP.Admin
                     Console.WriteLine("~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~");
                 }
                 Console.Clear();
-                Console.WriteLine("\nInput success :) \n");
+                Console.WriteLine("\n\tInput success :)");
+                Console.WriteLine("~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~");
                 SecondaryMenu();
             }
 
@@ -187,11 +192,13 @@ namespace MCC_CsOOP.Admin
                         Console.WriteLine("Exam result \t : ???");
                     }
 
-                    Console.WriteLine("\n~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \n");
+                    Console.WriteLine("\n~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~");
                 }
             }
         }
 
+        
+        
         public void ShowData(List<Mahasiswa> mhsUniv)
         {
             ShowDataProcess(mhsUniv);
