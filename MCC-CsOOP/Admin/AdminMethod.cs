@@ -6,10 +6,6 @@ namespace MCC_CsOOP.Admin
 {
     abstract class AdminMethod : IAdmin
     {
-        protected List<String> nameMhs = new List<string>();
-        protected List<String> nimMhs = new List<string>();
-        protected List<int> examValMhs = new List<int>();
-
         public abstract void ContactPerson();
 
         public void MainMenu()
@@ -20,7 +16,7 @@ namespace MCC_CsOOP.Admin
             Console.WriteLine("1. Input Data \n2. Show Data \n3. Remove Data \n4. Exit \n");
 
             Console.Write("Choose menu : ");
-            
+
         } // end of MainMenu()
 
         public void SecondaryMenu()
@@ -68,7 +64,7 @@ namespace MCC_CsOOP.Admin
             Console.WriteLine("/---/ Input Data Mahasiswa \\---\\ \n");
             Console.Write("How much? ");
             String inputHowMany = Console.ReadLine();
-            bool isNumber = Int32.TryParse(inputHowMany, out int inputMany );
+            bool isNumber = Int32.TryParse(inputHowMany, out int inputMany);
             if (isNumber == false)
             {
                 InputData(mhsUniv);
@@ -86,41 +82,46 @@ namespace MCC_CsOOP.Admin
                     Console.Write("Nim \t \t : ");
                     String inputNim = Console.ReadLine();
 
-                    int inputExamValue;
-                    do
+                InputExamValueCP:
+                    Console.Write("Exam value \t : ");
+                    String inputExamVal = Console.ReadLine();
+                    bool isExamVal = Int32.TryParse(inputExamVal, out int examVal);
+                    if (isExamVal == false || examVal < 0 || examVal > 100)
                     {
-                    reInputCheckPoint:
-                        Console.Write("Exam value \t : ");
-                        try
-                        {
-                            inputExamValue = Int32.Parse(Console.ReadLine());
-                            if (inputExamValue >= 0 && inputExamValue <= 100)
-                            {
-                                this.examValMhs.Add(inputExamValue);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Incorrect exam value, pls re-input");
-                                goto reInputCheckPoint;
-                            }
-                        }
-                        catch (FormatException)
-                        {
-                            Console.WriteLine("Incorrect exam value, pls re-input");
-                            goto reInputCheckPoint;
-                        }
-
-                    } while (inputExamValue < 0 && inputExamValue > 100);
-
-                    mhsUniv.Add(new Mahasiswa(inputName,inputNim,inputExamValue));
+                        Console.WriteLine("Incorrect exam value, pls re-input");
+                        goto InputExamValueCP;
+                    }
+                    else
+                    {
+                        mhsUniv.Add(new Mahasiswa(inputName, inputNim, examVal));
+                    }
 
                     Console.WriteLine("~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~");
-                } // end of for loop to input data
+                }
                 Console.Clear();
                 Console.WriteLine("\nInput success :) \n");
                 SecondaryMenu();
             }
 
+        }
+
+        public List<Boolean> CheckPass(List<Mahasiswa> mhsUniv)
+        {
+            List<Boolean> isPass = new List<Boolean>();
+            for (int i = 0; i < mhsUniv.Count; i++)
+            {
+                if (mhsUniv[i].examValMhs >= 75)
+                {
+                    Boolean pass = true;
+                    isPass.Add(pass);
+                }
+                else
+                {
+                    Boolean pass = false;
+                    isPass.Add(pass);
+                }
+            }
+            return isPass;
         }
 
         public void ShowData(List<Mahasiswa> mhsUniv)
@@ -192,31 +193,80 @@ namespace MCC_CsOOP.Admin
                 SecondaryMenu();
             }
         }
-        
-        public List<Boolean> CheckPass(List<Mahasiswa> mhsUniv)
+
+        public void ShowDataToRemove(List<Mahasiswa> mhsUniv)
         {
-            List<Boolean> isPass = new List<Boolean>();
-            for (int i = 0; i < mhsUniv.Count; i++)
+            Console.Clear();
+            if (mhsUniv.Count < 1)
             {
-                if (mhsUniv[i].examValMhs >= 75)
+                Console.Clear();
+                Console.WriteLine("There is no data to be shown. \n");
+                SecondaryMenu();
+            }
+            else
+            {
+                for (int i = 0; i < mhsUniv.Count; i++)
                 {
-                    Boolean pass = true;
-                    isPass.Add(pass);
-                }
-                else
-                {
-                    Boolean pass = false;
-                    isPass.Add(pass);
+                    Console.WriteLine($"\nMahasiswa {(i + 1)}");
+
+                    // ArgumentOutOfRangeException FOR nameMhsList
+                    try
+                    {
+                        Console.WriteLine($"Name \t \t : {mhsUniv[i].nameMhs}");
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        Console.WriteLine("Name doesnt exist");
+                    }
+
+                    // ArgumentOutOfRangeException FOR nimMhsList
+                    try
+                    {
+                        Console.WriteLine($"Nim \t \t : {mhsUniv[i].nimMhs}");
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        Console.WriteLine("Nim doesnt exist");
+                    }
+
+                    // ArgumentOutOfRangeException FOR examValMhsList
+                    try
+                    {
+                        Console.WriteLine($"Exam value \t : {mhsUniv[i].examValMhs}");
+
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        Console.WriteLine("Exam value doesnt exist");
+                    }
+
+                    // ArgumentOutOfRangeException FOR CheckPassExam method
+                    try
+                    {
+                        if (CheckPass(mhsUniv)[i] == true)
+                        {
+                            Console.WriteLine("Exam result \t : Good Job");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Exam result \t : Try again :)");
+                        }
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+
+                        Console.WriteLine("Exam result \t : ???");
+                    }
+
+                    Console.WriteLine("\n~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \t ~~~~~ \n");
                 }
             }
-            return isPass;
         }
 
         public void RemoveData(List<Mahasiswa> mhsUniv)
         {
-        RemoveCP:
             Console.Clear();
-            if (this.nameMhs.Count < 1 || this.nimMhs.Count < 1 || this.examValMhs.Count < 1)
+            if (mhsUniv.Count < 1)
             {
                 Console.Clear();
                 Console.WriteLine("There is no data to be removed. \n");
@@ -224,60 +274,41 @@ namespace MCC_CsOOP.Admin
             }
             else
             {
-                ShowData(mhsUniv);
-                Console.Write("Remove Data Mahasiswa ke- : ");
-                int selectData;
-                try
-                {
-                    selectData = Int32.Parse(Console.ReadLine());
-                }
-                catch (FormatException)
-                {
-                    // RemoveData(); // klo ga pake ini variabel selectData jadi gada isi
-                    goto RemoveCP; // klo pake ini masalah di atas fix .-.
-                }
-
-                if (this.nameMhs.Count < selectData)
+                ShowDataToRemove(mhsUniv);
+                Console.Write("Remove Data Mahasiswa number- : ");
+                String selectToRemove = Console.ReadLine();
+                bool isNumber = Int32.TryParse(selectToRemove, out int removeNumber);
+                if (isNumber == false || mhsUniv.Count < removeNumber || removeNumber <= 0)
                 {
                     RemoveData(mhsUniv);
                 }
                 else
                 {
-                    Console.Write($"Are u sure to remove Mahasiswa ke-{selectData} (Y/n) ? ");
+                    Console.Write($"Are u sure to remove Mahasiswa number-{removeNumber} (Y/n) ? ");
                     string confirmRemove = Console.ReadLine();
 
                     switch (confirmRemove.ToLower())
                     {
                         case "y":
-                            RemoveDataProcess(selectData - 1);
+                            RemoveDataProcess(mhsUniv, removeNumber - 1);
                             break;
-                        case "n":
-                            RemoveData(mhsUniv);
+                        case "":
+                            RemoveDataProcess(mhsUniv, removeNumber - 1);
                             break;
                         default:
-                            SecondaryMenu();
+                            RemoveData(mhsUniv);
                             break;
                     }
                 }
-            } // end of if else
-        } // end of RemoveData()
+            }
+        }
 
-        public void RemoveDataProcess(int dataIndex)
+        private void RemoveDataProcess(List<Mahasiswa> mhsUniv, int dataIndex)
         {
-            try
-            {
-                this.nameMhs.RemoveAt(dataIndex);
-                this.nimMhs.RemoveAt(dataIndex);
-                this.examValMhs.RemoveAt(dataIndex);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                //RemoveData();
-            }
+            mhsUniv.RemoveAt(dataIndex);
             Console.Clear();
             Console.WriteLine("\nData removed :( \n");
-        } // end of RemoveDataProcess()
-
-
+            SecondaryMenu();
+        }
     }
 }
