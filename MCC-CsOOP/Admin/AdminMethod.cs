@@ -69,7 +69,7 @@ namespace MCC_CsOOP.Admin
             Console.Write("How much? ");
             String inputHowMany = Console.ReadLine();
             bool isNumber = Int32.TryParse(inputHowMany, out int inputMany);
-            if (isNumber == false)
+            if (isNumber == false || inputMany <=0)
             {
                 InputData(mhsUniv);
             }
