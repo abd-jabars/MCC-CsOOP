@@ -17,7 +17,7 @@ namespace MCC_CsOOP.Admin
 
             Console.Write("Choose menu : ");
 
-        } // end of MainMenu()
+        }
 
         public void SecondaryMenu()
         {
@@ -37,7 +37,7 @@ namespace MCC_CsOOP.Admin
             {
                 SecondaryMenu();
             } // end of if else
-        } // end of ShowMenu()
+        }
 
         public void ConfirmExit()
         {
@@ -56,7 +56,7 @@ namespace MCC_CsOOP.Admin
                     ConfirmExit();
                     break;
             }
-        } // end of ConfirmExit()
+        }
 
         public void InputData(List<Mahasiswa> mhsUniv)
         {
